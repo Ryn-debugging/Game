@@ -1,0 +1,1237 @@
+/* =========================================================================
+   ADMIN DADAKAN: Grup RT — css/style.css
+   Desain Portrait 9:16 "WargaChat" & Visual Novel 2D
+   ========================================================================= */
+
+:root {
+    --wc-dark-green: #054640;
+    --wc-primary-green: #075E54;
+    --wc-teal: #128C7E;
+    --wc-light-green: #25D366;
+    --wc-bubble-out: #DCF8C6;
+    --wc-bubble-in: #FFFFFF;
+    --wc-chat-bg: #E5DDD5;
+    --wc-warm-cream: #FFFDF9;
+    --wc-amber: #D69E2E;
+    --wc-amber-soft: #FEFCBF;
+    --wc-danger: #E53E3E;
+    --wc-text-main: #1A202C;
+    --wc-text-muted: #4A5568;
+    --wc-border: rgba(0, 0, 0, 0.09);
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: var(--font-sans);
+    background: radial-gradient(circle at 50% 20%, #1E293B 0%, #0F172A 100%);
+    color: var(--wc-text-main);
+    overflow: hidden;
+}
+
+.app-viewport {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+}
+
+/* Bingkai Smartphone Portrait 9:16 */
+.phone-frame {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    height: 100%;
+    max-height: 890px;
+    background: var(--wc-chat-bg);
+    border-radius: 28px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 0 6px #2D3748;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 500px) {
+    .app-viewport {
+        padding: 0;
+    }
+    .phone-frame {
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}
+
+.screen-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================================================================
+   1. MAIN MENU SCREEN
+   ========================================================================= */
+#screen-menu {
+    background: linear-gradient(180deg, #054640 0%, #075E54 45%, #0F172A 100%);
+    color: #FFFFFF;
+    justify-content: space-between;
+    padding: 20px 18px;
+    overflow-y: auto;
+}
+
+.menu-hero-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    border: 2px solid rgba(255, 255, 255, 0.16);
+    background: #1A202C;
+}
+
+.menu-hero-bg {
+    width: 100%;
+    height: 165px;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.85);
+}
+
+.menu-cast-strip {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: -38px;
+    padding: 0 12px 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.menu-cast-avatar {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #FEFCBF;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    background: #FFF;
+}
+
+.menu-cast-avatar.main-char {
+    width: 68px;
+    height: 68px;
+    margin-top: -6px;
+    border-color: #38B2AC;
+}
+
+.menu-title-block {
+    text-align: center;
+    padding: 6px 8px;
+}
+
+.menu-app-tag {
+    display: inline-block;
+    background: rgba(254, 252, 191, 0.18);
+    color: #FEFCBF;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+}
+
+.menu-title-block h1 {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+}
+
+.menu-subtitle {
+    font-size: 14px;
+    color: #A7F3D0;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.menu-tagline {
+    font-size: 12.5px;
+    color: #E2E8F0;
+    font-style: italic;
+    line-height: 1.45;
+    background: rgba(0, 0, 0, 0.22);
+    padding: 8px 12px;
+    border-radius: 12px;
+}
+
+.menu-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin: 10px 0;
+}
+
+.btn-primary-play {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary-play:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(37, 211, 102, 0.4);
+}
+
+.menu-secondary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+.btn-menu-sec {
+    padding: 10px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.btn-menu-sec:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.menu-footer-meta {
+    text-align: center;
+    font-size: 12px;
+    color: #CBD5E0;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* =========================================================================
+   2. CUTSCENE / ADEGAN LINGKUNGAN SCREEN (PROLOG, POS RONDA, RAPAT WARGA)
+   ========================================================================= */
+#screen-cutscene {
+    background: #0F172A;
+    color: #FFFFFF;
+    justify-content: space-between;
+}
+
+.cutscene-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(15, 23, 42, 0.92);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    z-index: 3;
+}
+
+.cutscene-top-info h2 {
+    font-size: 14px;
+    font-weight: 800;
+    color: #FBD38D;
+}
+
+.cutscene-top-info span {
+    font-size: 11.5px;
+    color: #CBD5E0;
+}
+
+.btn-cutscene-skip {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.1);
+    color: #E2E8F0;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cutscene-visual-stage {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.cutscene-bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.88);
+}
+
+.cutscene-location-pill {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    background: rgba(15, 23, 42, 0.82);
+    color: #A7F3D0;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(167, 243, 208, 0.35);
+    z-index: 2;
+}
+
+.cutscene-portrait-wrapper {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cutscene-char-image {
+    width: 210px;
+    height: 210px;
+    border-radius: 24px;
+    object-fit: cover;
+    border: 4px solid #FEFCBF;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65);
+    background: #FFF;
+}
+
+.cutscene-dialogue-box {
+    background: #1E293B;
+    border-top: 3px solid #D69E2E;
+    padding: 18px 18px 20px;
+    z-index: 3;
+}
+
+.cutscene-speaker-badge {
+    display: inline-block;
+    background: #D69E2E;
+    color: #1A202C;
+    font-size: 12.5px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.cutscene-dialogue-text {
+    font-size: 15px;
+    line-height: 1.55;
+    color: #F8FAFC;
+    min-height: 82px;
+    margin-bottom: 14px;
+}
+
+.btn-cutscene-next {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: #128C7E;
+    color: #FFFFFF;
+    font-size: 14.5px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+/* =========================================================================
+   3. WARGACHAT MAIN GAMEPLAY SCREEN
+   ========================================================================= */
+.hud-status-bar {
+    background: var(--wc-dark-green);
+    color: #FFFFFF;
+    padding: 7px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 11.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hud-day-badge {
+    font-weight: 800;
+    color: #FEFCBF;
+    white-space: nowrap;
+}
+
+.hud-meters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.hud-meter-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.hud-meter-label {
+    font-weight: 700;
+    color: #E2E8F0;
+}
+
+.hud-mini-track {
+    width: 36px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.hud-mini-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.3s ease;
+}
+
+.fill-ketenangan { background: #4FD1C5; }
+.fill-kepercayaan { background: #63B3ED; }
+.fill-tekanan { background: #FC8181; }
+
+/* Header Aplikasi WargaChat */
+.wargachat-header {
+    background: var(--wc-primary-green);
+    color: #FFFFFF;
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+    z-index: 4;
+}
+
+.wc-group-identity {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.wc-group-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #FEFCBF;
+    color: #075E54;
+    font-weight: 900;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #A7F3D0;
+}
+
+.wc-group-text h2 {
+    font-size: 14.5px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.wc-group-text p {
+    font-size: 11px;
+    color: #C6F6D5;
+}
+
+.wc-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-wc-action {
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #FFFFFF;
+    padding: 5px 8px;
+    border-radius: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.btn-wc-action:hover {
+    background: rgba(255, 255, 255, 0.24);
+}
+
+/* Banner Adegan 2D & Monolog Batin Dika */
+.stage-banner {
+    position: relative;
+    background: #1A202C;
+    color: #FFFFFF;
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    border-bottom: 2px solid #CBD5E0;
+    overflow: hidden;
+    min-height: 92px;
+}
+
+.stage-bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.34;
+    filter: blur(1px);
+}
+
+.stage-char-portrait {
+    position: relative;
+    z-index: 2;
+    width: 68px;
+    height: 68px;
+    border-radius: 14px;
+    object-fit: cover;
+    border: 2px solid #FEFCBF;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    flex-shrink: 0;
+    background: #FFF;
+}
+
+.stage-monologue-box {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+}
+
+.stage-event-title {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #FBD38D;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 3px;
+}
+
+.stage-monologue-text {
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: #F7FAFC;
+    font-style: italic;
+}
+
+/* Toast Perubahan Indikator */
+.stat-toast-bar {
+    position: absolute;
+    top: 185px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.stat-delta-pill {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 800;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    animation: popIn 0.25s ease;
+}
+
+.pill-positive {
+    background: #065F46;
+    color: #A7F3D0;
+    border: 1px solid #34D399;
+}
+
+.pill-negative {
+    background: #7F1D1D;
+    color: #FECACA;
+    border: 1px solid #F87171;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Area Stream Gelembung Chat */
+.chat-stream {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #E5DDD5;
+    background-image: radial-gradient(rgba(7, 94, 84, 0.06) 1px, transparent 0);
+    background-size: 18px 18px;
+}
+
+.chat-bubble-system {
+    align-self: center;
+    background: #D4EAF7;
+    color: #2C5282;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 90%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.chat-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    animation: fadeSlideUp 0.2s ease;
+}
+
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-row-incoming {
+    align-self: flex-start;
+    max-width: 88%;
+}
+
+.chat-row-outgoing {
+    align-self: flex-end;
+    max-width: 86%;
+}
+
+.chat-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+
+.chat-bubble {
+    padding: 8px 11px;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    position: relative;
+}
+
+.bubble-incoming {
+    background: var(--wc-bubble-in);
+    border-bottom-left-radius: 4px;
+}
+
+.bubble-outgoing {
+    background: var(--wc-bubble-out);
+    border-bottom-right-radius: 4px;
+}
+
+.bubble-sender {
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.bubble-role-pill {
+    font-size: 10px;
+    font-weight: 600;
+    color: #718096;
+}
+
+.bubble-text {
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--wc-text-main);
+    word-wrap: break-word;
+}
+
+.bubble-meta {
+    font-size: 10.5px;
+    color: #718096;
+    text-align: right;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
+.read-ticks {
+    color: #3182CE;
+    font-weight: 800;
+}
+
+/* Kartu Stiker Bapak-Bapak / Ibu-Ibu RT */
+.sticker-card {
+    border-radius: 12px;
+    padding: 10px 12px;
+    color: #FFFFFF;
+    text-align: center;
+    margin: 4px 0;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+
+.sticker-emoji {
+    font-size: 22px;
+    margin-bottom: 3px;
+}
+
+.sticker-top {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.sticker-bottom {
+    font-size: 11.5px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.sticker-tag {
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 9.5px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 2px 8px;
+    border-radius: 99px;
+}
+
+/* Bar Typing Indicator */
+.chat-typing-bar {
+    background: #F0F2F5;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--wc-border);
+    font-size: 12px;
+    color: var(--wc-text-muted);
+}
+
+.btn-skip-chat {
+    background: var(--wc-teal);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Panel Pilihan Respons Admin (4 Pilihan) */
+.choice-panel {
+    background: #F8FAFC;
+    border-top: 2px solid var(--wc-teal);
+    padding: 10px 11px 12px;
+    max-height: 46%;
+    overflow-y: auto;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.choice-panel-header {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--wc-primary-green);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 7px;
+}
+
+.choice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.choice-btn {
+    width: 100%;
+    text-align: left;
+    background: #FFFFFF;
+    border: 1.5px solid #CBD5E0;
+    border-radius: 11px;
+    padding: 8px 11px;
+    cursor: pointer;
+    transition: all 0.14s ease;
+}
+
+.choice-btn:hover:not(:disabled) {
+    border-color: var(--wc-teal);
+    background: #F0FDF4;
+    transform: translateY(-1px);
+}
+
+.choice-locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #EDF2F7;
+}
+
+.choice-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3px;
+}
+
+.choice-badge {
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+
+.badge-diplomatis { background: #E6FFFA; color: #047857; }
+.badge-tegas { background: #EBF8FF; color: #1D4ED8; }
+.badge-sarkastis { background: #FEF3C7; color: #B45309; }
+.badge-menghindar { background: #EDF2F7; color: #4A5568; }
+
+.choice-label {
+    font-size: 12.8px;
+    font-weight: 600;
+    color: var(--wc-text-main);
+    line-height: 1.35;
+}
+
+/* =========================================================================
+   4. RINGKASAN HARIAN & 5. LAYAR ENDING
+   ========================================================================= */
+#screen-summary, #screen-ending {
+    background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
+    color: #FFFFFF;
+    padding: 18px 16px;
+    overflow-y: auto;
+    justify-content: space-between;
+}
+
+.summary-card, .ending-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.summary-pill {
+    display: inline-block;
+    background: #128C7E;
+    color: #FFFFFF;
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 99px;
+    margin-bottom: 8px;
+}
+
+.summary-headline {
+    font-size: 15px;
+    font-weight: 700;
+    color: #FBD38D;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.summary-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    text-align: center;
+}
+
+.summary-stat-box {
+    background: rgba(15, 23, 42, 0.65);
+    padding: 10px 6px;
+    border-radius: 12px;
+}
+
+.summary-stat-box span {
+    display: block;
+    font-size: 11px;
+    color: #CBD5E0;
+}
+
+.summary-stat-box strong {
+    font-size: 16px;
+    color: #A7F3D0;
+}
+
+.summary-logs-list {
+    padding-left: 18px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #E2E8F0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Layar Ending Visual */
+.ending-visual-banner {
+    position: relative;
+    height: 165px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    border: 2px solid #FEFCBF;
+}
+
+.ending-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.75);
+}
+
+.ending-char-img {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    width: 110px;
+    height: 110px;
+    border-radius: 18px;
+    object-fit: cover;
+    border: 3px solid #FFFFFF;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.ending-top-badges {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+}
+
+.ending-number-pill {
+    background: rgba(15, 23, 42, 0.85);
+    color: #E2E8F0;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 99px;
+}
+
+.ending-badge {
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 4px 12px;
+    border-radius: 8px;
+}
+
+.ending-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+}
+
+.ending-subtitle {
+    font-size: 13px;
+    color: #FBD38D;
+    margin-bottom: 10px;
+}
+
+.ending-narrative p {
+    font-size: 13.2px;
+    line-height: 1.52;
+    color: #E2E8F0;
+    margin-bottom: 8px;
+}
+
+.ending-quote {
+    font-size: 12.5px;
+    font-style: italic;
+    color: #A7F3D0;
+    background: rgba(0, 0, 0, 0.28);
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin-top: 6px;
+}
+
+/* =========================================================================
+   6. MODAL OVERLAYS (PANEL STATUS, ARSIP & STIKER, SAVE/LOAD, PENGATURAN)
+   ========================================================================= */
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.86);
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 14px;
+    color: #FFFFFF;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    margin-bottom: 12px;
+}
+
+.modal-header h3 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #FBD38D;
+}
+
+.btn-close-modal {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.45);
+    color: #FCA5A5;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.modal-section-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #81E6D9;
+    margin: 10px 0 8px;
+    text-transform: uppercase;
+}
+
+.status-meter-group {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+}
+
+.status-meter-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    margin-bottom: 5px;
+}
+
+.mini-progress-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.mini-progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.3s ease;
+}
+
+.relation-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 9px 11px;
+    margin-bottom: 8px;
+}
+
+.relation-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #FEFCBF;
+    flex-shrink: 0;
+}
+
+.relation-info {
+    flex: 1;
+}
+
+.relation-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    margin-bottom: 2px;
+}
+
+.relation-score {
+    color: #FBD38D;
+    font-weight: 700;
+}
+
+.relation-role {
+    font-size: 11px;
+    color: #CBD5E0;
+    margin-bottom: 5px;
+}
+
+/* Arsip & Stiker */
+.archive-item {
+    display: flex;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 8px;
+}
+
+.archive-item.locked {
+    opacity: 0.55;
+}
+
+.archive-icon {
+    font-size: 22px;
+    width: 36px;
+    text-align: center;
+}
+
+.archive-body {
+    flex: 1;
+}
+
+.archive-title-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #FBD38D;
+    margin-bottom: 3px;
+}
+
+.archive-day-tag {
+    font-size: 10.5px;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 1px 7px;
+    border-radius: 99px;
+    color: #E2E8F0;
+}
+
+.archive-body p {
+    font-size: 12px;
+    color: #E2E8F0;
+    line-height: 1.4;
+}
+
+/* Save / Load Slots */
+.save-slot-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 11px 12px;
+    margin-bottom: 9px;
+}
+
+.save-slot-info strong {
+    font-size: 13.5px;
+    color: #FBD38D;
+}
+
+.save-slot-info p {
+    font-size: 11.5px;
+    color: #CBD5E0;
+    margin-top: 3px;
+}
+
+.save-slot-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.btn-slot-save, .btn-slot-load {
+    padding: 6px 11px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-slot-save { background: #128C7E; color: #FFFFFF; }
+.btn-slot-load { background: #D69E2E; color: #1A202C; }
+
+/* Settings */
+.settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 11px 12px;
+    border-radius: 12px;
+    margin-bottom: 9px;
+    font-size: 13px;
+}
+
+.btn-toggle, .btn-speed {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-toggle.active, .btn-speed.active {
+    background: #128C7E;
+    border-color: #38B2AC;
+}
