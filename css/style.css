@@ -210,6 +210,26 @@ html, body {
     box-shadow: 0 10px 24px rgba(37, 211, 102, 0.4);
 }
 
+.btn-download-apk {
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: rgba(254, 252, 191, 0.16);
+    border: 1.5px solid #FBD38D;
+    color: #FEFCBF;
+    font-size: 13px;
+    font-weight: 800;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.btn-download-apk:hover {
+    background: rgba(254, 252, 191, 0.26);
+    transform: translateY(-1px);
+}
+
 .menu-secondary-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

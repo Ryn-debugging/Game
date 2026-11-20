@@ -89,6 +89,10 @@ class AdminDadakanEngine {
     // INISIALISASI UI & EVENT LISTENERS
     // =========================================================================
     mount() {
+        if (window.location.protocol === "file:" && window.location.href.indexOf("android_asset") !== -1) {
+            const dlBtn = document.getElementById("btn-download-apk");
+            if (dlBtn) dlBtn.classList.add("hidden");
+        }
         this.bindUIEvents();
         this.updateCollectionCounters();
         this.showScreen("menu");
