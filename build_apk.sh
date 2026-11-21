@@ -33,6 +33,7 @@ mkdir -p "${WORK_DIR}/gen" \
          "${WORK_DIR}/assets/css" \
          "${WORK_DIR}/assets/js" \
          "${WORK_DIR}/assets/assets/images" \
+         "${WORK_DIR}/assets/assets/fonts" \
          "${ROOT_DIR}/android/res/drawable"
 
 echo "[2/7] Membuat ikon peluncur Android (ic_launcher.png) dari karakter Dika..."
@@ -41,7 +42,7 @@ from PIL import Image, ImageDraw
 img = Image.open('${ROOT_DIR}/assets/images/char_dika.jpg').convert('RGBA')
 img = img.resize((192, 192), Image.LANCZOS)
 # Beri bingkai hijau khas WargaChat
-border = Image.new('RGBA', (192, 192), (7, 94, 84, 255))
+border = Image.new('RGBA', (192, 192), (15, 118, 110, 255))
 mask = Image.new('L', (180, 180), 255)
 inner = img.resize((180, 180), Image.LANCZOS)
 border.paste(inner, (6, 6), mask)
@@ -49,12 +50,14 @@ border.save('${ROOT_DIR}/android/res/drawable/ic_launcher.png', 'PNG')
 print('      ic_launcher.png (192x192) berhasil dibuat.')
 "
 
-echo "[3/7] Menyalin aset permainan (HTML, CSS, JS, dan 9 Ilustrasi 2D) ke bundle APK..."
+echo "[3/7] Menyalin aset permainan (HTML, CSS, JS, Font Lokal, & 9 Ilustrasi 2D) ke bundle APK..."
 cp "${ROOT_DIR}/index.html" "${WORK_DIR}/assets/index.html"
 cp "${ROOT_DIR}/css/style.css" "${WORK_DIR}/assets/css/style.css"
 cp "${ROOT_DIR}/js/audio.js" "${WORK_DIR}/assets/js/audio.js"
 cp "${ROOT_DIR}/js/story_data.js" "${WORK_DIR}/assets/js/story_data.js"
 cp "${ROOT_DIR}/js/engine.js" "${WORK_DIR}/assets/js/engine.js"
+cp "${ROOT_DIR}/assets/fonts/"*.ttf "${WORK_DIR}/assets/assets/fonts/"
+echo "      8 file font Plus Jakarta Sans & Fredoka berhasil disalin (100% offline)."
 
 # Optimasi ukuran gambar JPEG agar APK ringan & cepat diinstal (< 3 MB)
 python3 -c "

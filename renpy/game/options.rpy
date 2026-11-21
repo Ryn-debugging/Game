@@ -5,11 +5,11 @@
 
 define config.name = _("ADMIN DADAKAN: Grup RT")
 define gui.show_name = True
-define config.version = "1.0.0"
+define config.version = "2.0.0"
 
 define gui.about = _p("""
-ADMIN DADAKAN: Grup RT
-Satu grup RT, banyak warga yang merasa paling benar, dan satu admin baru yang cuma ingin hidup tenang.
+ADMIN DADAKAN: Grup RT (v2.0 Edisi Gaul)
+Satu grup RT, banyak warga yang merasa paling benar, dan satu admin baru yang cuma pengen rebahan tenang.
 
 Genre: Dark Comedy Ringan, Casual Simulation, Narrative Choice
 Platform: Android (Portrait 9:16)
@@ -52,3 +52,4 @@ init python:
     build.classify('game/**.rpy', 'all')
     build.classify('game/**.jpg', 'all')
     build.classify('game/**.png', 'all')
+    build.classify('game/**.ttf', 'all')

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>ADMIN DADAKAN: Grup RT — WargaChat Simulator & Visual Novel 2D</title>
-    <meta name="description" content="Game naratif 2D dark comedy ringan tentang Dika, seorang pemuda yang mendadak ditunjuk menjadi admin grup WargaChat lingkungan RT 05." />
+    <meta name="description" content="Game naratif 2D dark comedy ringan bergaya gaul tentang Dika, anak muda yang mendadak dijebak jadi admin grup WargaChat lingkungan RT 05." />
     <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -15,8 +15,14 @@
                  1. LAYAR MAIN MENU
                  ============================================================= -->
             <section id="screen-menu" class="screen-view">
+                <div class="menu-top-strip">
+                    <span class="menu-version-pill">✨ v2.0 Edisi Gaul</span>
+                    <span class="menu-offline-pill">📱 100% Offline</span>
+                </div>
+
                 <div class="menu-hero-card">
                     <img src="assets/images/bg_jalan_rt.jpg" alt="Lingkungan RT 05" class="menu-hero-bg" />
+                    <div class="menu-hero-overlay"></div>
                     <div class="menu-cast-strip">
                         <img src="assets/images/char_pak_rt.jpg" alt="Pak RT" class="menu-cast-avatar" title="Pak RT Hendra" />
                         <img src="assets/images/char_bu_siti.jpg" alt="Bu Siti" class="menu-cast-avatar" title="Bu Siti Blok B" />
@@ -28,17 +34,17 @@
 
                 <div class="menu-title-block">
                     <span class="menu-app-tag">WargaChat RT 05 • Dark Comedy Simulator</span>
-                    <h1>ADMIN DADAKAN: Grup RT</h1>
-                    <p class="menu-subtitle">Satu Grup RT. Lima Kepentingan. Satu Admin yang Ingin Tidur.</p>
-                    <p class="menu-tagline">"Menjadi admin itu mudah. Menghadapi manusia adalah masalahnya."</p>
+                    <h1>ADMIN DADAKAN:<br />Grup RT</h1>
+                    <p class="menu-subtitle">Satu Grup RT. Lima Karakter. Satu Admin yang Cuma Pengen Rebahan.</p>
+                    <p class="menu-tagline">"Jadi admin itu gampang. Ngadepin warganya yang bikin kena mental."</p>
                 </div>
 
                 <div class="menu-actions">
                     <button type="button" id="btn-start-game" class="btn-primary-play">
-                        ▶ Mulai Jadi Admin (Prolog + 3 Hari)
+                        ▶ Gaskeun Jadi Admin (Prolog + 3 Hari)
                     </button>
                     <a href="AdminDadakan-GrupRT.apk" download="AdminDadakan-GrupRT.apk" id="btn-download-apk" class="btn-download-apk">
-                        📲 Unduh APK Android (AdminDadakan-GrupRT.apk • 1.7 MB)
+                        📲 Unduh APK Android v2.0 (Offline • Siap Instal)
                     </a>
                     <div class="menu-secondary-grid">
                         <button type="button" id="btn-continue-game" class="btn-menu-sec">💾 Save / Load</button>
@@ -48,12 +54,12 @@
                 </div>
 
                 <footer class="menu-footer-meta">
-                    <div id="menu-progress-summary">Arsip: 0/10 • Stiker RT: 0/5 • Ending: 0/4</div>
+                    <div id="menu-progress-summary">🗂️ Arsip 0/10 • ★ Stiker 0/5 • 🏆 Ending 0/4</div>
                 </footer>
             </section>
 
             <!-- =============================================================
-                 2. LAYAR ADEGAN LINGKUNGAN / CUTSCENE 2D (PROLOG, POS RONDA, BALAI WARGA)
+                 2. LAYAR ADEGAN LINGKUNGAN / CUTSCENE 2D
                  ============================================================= -->
             <section id="screen-cutscene" class="screen-view hidden">
                 <header class="cutscene-top-bar">
@@ -61,12 +67,13 @@
                         <h2 id="cutscene-header-title">Prolog — Jebakan Minggu Pagi</h2>
                         <span id="cutscene-header-time">Minggu, 06:45 WIB</span>
                     </div>
-                    <button type="button" id="btn-cutscene-skip" class="btn-cutscene-skip">Lewati ⏭</button>
+                    <button type="button" id="btn-cutscene-skip" class="btn-cutscene-skip">Skip ⏭</button>
                 </header>
 
                 <div class="cutscene-visual-stage">
                     <img id="cutscene-bg-img" src="assets/images/bg_kamar_dika.jpg" alt="Latar Adegan" class="cutscene-bg-image" />
-                    <span id="cutscene-location-badge" class="cutscene-location-pill">Kamar Dika — RT 05</span>
+                    <div class="cutscene-stage-vignette"></div>
+                    <span id="cutscene-location-badge" class="cutscene-location-pill">📍 Kamar Dika — Markas Rebahan</span>
                     <div class="cutscene-portrait-wrapper">
                         <img id="cutscene-char-img" src="assets/images/char_dika.jpg" alt="Karakter" class="cutscene-char-image" />
                     </div>
@@ -83,24 +90,34 @@
                  3. LAYAR UTAMA WARGACHAT (GROUP CHAT + POTRET 2D + PILIHAN)
                  ============================================================= -->
             <section id="screen-chat" class="screen-view hidden">
+                <!-- Bar Status HP Realistis -->
+                <div class="phone-sys-bar">
+                    <span id="phone-clock" class="sys-clock">07:15 WIB</span>
+                    <span class="sys-brand">WargaChat • RT 05</span>
+                    <span class="sys-right">
+                        <span class="sys-signal">5G</span>
+                        <span id="phone-battery">🔋 96%</span>
+                    </span>
+                </div>
+
                 <!-- Bar Indikator Real-Time -->
                 <div class="hud-status-bar">
                     <span id="hud-day-phase" class="hud-day-badge">Hari 1/3 • Pagi</span>
                     <div class="hud-meters">
                         <div class="hud-meter-item" title="Ketenangan Grup">
-                            <span class="hud-meter-label">Tenang</span>
+                            <span class="hud-meter-label">🕊️</span>
                             <div class="hud-mini-track"><div id="hud-bar-ketenangan" class="hud-mini-fill fill-ketenangan" style="width:70%"></div></div>
-                            <span id="hud-val-ketenangan">70</span>
+                            <span id="hud-val-ketenangan" class="hud-meter-num">70</span>
                         </div>
-                        <div class="hud-meter-item" title="Kepercayaan Warga">
-                            <span class="hud-meter-label">Percaya</span>
+                        <div class="hud-meter-item" title="Respek Warga">
+                            <span class="hud-meter-label">⭐</span>
                             <div class="hud-mini-track"><div id="hud-bar-kepercayaan" class="hud-mini-fill fill-kepercayaan" style="width:50%"></div></div>
-                            <span id="hud-val-kepercayaan">50</span>
+                            <span id="hud-val-kepercayaan" class="hud-meter-num">50</span>
                         </div>
-                        <div class="hud-meter-item" title="Tekanan Admin (Dika)">
-                            <span class="hud-meter-label">Stres</span>
+                        <div class="hud-meter-item" title="Tekanan Mental Dika">
+                            <span class="hud-meter-label">🤯</span>
                             <div class="hud-mini-track"><div id="hud-bar-tekanan" class="hud-mini-fill fill-tekanan" style="width:20%"></div></div>
-                            <span id="hud-val-tekanan">20</span>
+                            <span id="hud-val-tekanan" class="hud-meter-num">20</span>
                         </div>
                     </div>
                 </div>
@@ -111,24 +128,28 @@
                         <div class="wc-group-icon">RT05</div>
                         <div class="wc-group-text">
                             <h2>Grup RT 05 Kompak</h2>
-                            <p>Pak RT, Bu Siti, Pak Budi, Roni, Anda</p>
+                            <p>Pak RT, Bu Siti, Pak Budi, Roni, Kamu</p>
                         </div>
                     </div>
                     <div class="wc-header-actions">
-                        <button type="button" id="btn-open-status" class="btn-wc-action" title="Panel Status & Relasi">📊 Status</button>
-                        <button type="button" id="btn-open-archive" class="btn-wc-action" title="Arsip Kejadian & Stiker">🗂️ <span id="badge-archive-count">0</span></button>
+                        <button type="button" id="btn-open-status" class="btn-wc-action" title="Status & Relasi">📊</button>
+                        <button type="button" id="btn-open-archive" class="btn-wc-action" title="Arsip & Stiker">🗂️<span id="badge-archive-count">0</span></button>
                         <button type="button" id="btn-open-saveload" class="btn-wc-action" title="Simpan / Muat">💾</button>
                         <button type="button" id="btn-open-settings" class="btn-wc-action" title="Pengaturan">⚙️</button>
                     </div>
                 </header>
 
-                <!-- Banner Adegan 2D & Komentar Batin Dika -->
+                <!-- Banner Adegan 2D & Pikiran Batin Dika -->
                 <div class="stage-banner">
                     <img id="stage-bg-img" src="assets/images/bg_kamar_dika.jpg" alt="Lokasi" class="stage-bg-image" />
+                    <div class="stage-scrim"></div>
                     <img id="stage-char-img" src="assets/images/char_dika.jpg" alt="Karakter Aktif" class="stage-char-portrait" />
                     <div class="stage-monologue-box">
-                        <div id="stage-event-title" class="stage-event-title">Kejadian 1: Mandat Dadakan</div>
-                        <p id="stage-monologue-text" class="stage-monologue-text">Menyimak percakapan grup...</p>
+                        <div class="stage-top-row">
+                            <div id="stage-event-title" class="stage-event-title">Kejadian 1</div>
+                            <span id="stage-mood-badge" class="stage-mood-badge mood-calm">🕊️ Grup Adem</span>
+                        </div>
+                        <p id="stage-monologue-text" class="stage-monologue-text">Lagi nyimak drama baru di grup RT 05...</p>
                     </div>
                 </div>
 
@@ -140,45 +161,45 @@
 
                 <!-- Bar Indikator Mengetik -->
                 <div id="chat-typing-bar" class="chat-typing-bar">
-                    <span id="typing-indicator-text">Warga sedang mengetik...</span>
+                    <span id="typing-indicator-text">Warga lagi ngetik...</span>
                     <button type="button" id="btn-skip-chat" class="btn-skip-chat">Percepat ⏩</button>
                 </div>
 
                 <!-- Panel Pilihan Respons Admin -->
                 <div id="choice-panel" class="choice-panel hidden">
-                    <div class="choice-panel-header">Pilih Respons Dika (Admin Grup RT 05):</div>
+                    <div class="choice-panel-header">💬 Pilih Gaya Balasanmu Sebagai Admin:</div>
                     <div id="choice-list" class="choice-list"></div>
                 </div>
             </section>
 
             <!-- =============================================================
-                 4. LAYAR RINGKASAN HARIAN (EVALUASI MALAM)
+                 4. LAYAR RINGKASAN HARIAN (REKAP MALAM)
                  ============================================================= -->
             <section id="screen-summary" class="screen-view hidden">
                 <div>
-                    <span id="summary-day-badge" class="summary-pill">Evaluasi Malam • Akhir Hari 1</span>
+                    <span id="summary-day-badge" class="summary-pill">🌙 Rekap Malam • Akhir Hari 1</span>
                     <h2 id="summary-headline" class="summary-headline"></h2>
 
                     <div class="summary-card">
                         <div class="modal-section-title">Kondisi Grup RT 05 Malam Ini</div>
                         <div class="summary-stat-grid">
                             <div class="summary-stat-box">
-                                <span>Ketenangan</span>
+                                <span>🕊️ Adem</span>
                                 <strong id="sum-ketenangan">70/100</strong>
                             </div>
                             <div class="summary-stat-box">
-                                <span>Kepercayaan</span>
+                                <span>⭐ Respek</span>
                                 <strong id="sum-kepercayaan">50/100</strong>
                             </div>
                             <div class="summary-stat-box">
-                                <span>Tekanan Dika</span>
+                                <span>🤯 Stres</span>
                                 <strong id="sum-tekanan">20/100</strong>
                             </div>
                         </div>
                     </div>
 
                     <div class="summary-card">
-                        <div class="modal-section-title">Jejak Keputusan Admin Hari Ini</div>
+                        <div class="modal-section-title">Jejak Keputusanmu Hari Ini</div>
                         <ul id="summary-decision-logs" class="summary-logs-list"></ul>
                     </div>
                 </div>
@@ -210,26 +231,26 @@
                     </div>
 
                     <div class="summary-card">
-                        <div class="modal-section-title">Statistik Akhir & Koleksi</div>
+                        <div class="modal-section-title">Rapor Akhir Admin Dadakan</div>
                         <div class="summary-stat-grid">
                             <div class="summary-stat-box">
-                                <span>Ketenangan</span>
+                                <span>🕊️ Adem</span>
                                 <strong id="end-stat-ketenangan">70/100</strong>
                             </div>
                             <div class="summary-stat-box">
-                                <span>Kepercayaan</span>
+                                <span>⭐ Respek</span>
                                 <strong id="end-stat-kepercayaan">50/100</strong>
                             </div>
                             <div class="summary-stat-box">
-                                <span>Tekanan</span>
+                                <span>🤯 Stres</span>
                                 <strong id="end-stat-tekanan">20/100</strong>
                             </div>
                             <div class="summary-stat-box">
-                                <span>Arsip Terbuka</span>
+                                <span>🗂️ Arsip</span>
                                 <strong id="end-stat-archives">0/10</strong>
                             </div>
                             <div class="summary-stat-box">
-                                <span>Ending Tercapai</span>
+                                <span>🏆 Ending</span>
                                 <strong id="end-stat-endings">1/4</strong>
                             </div>
                         </div>
@@ -237,8 +258,8 @@
                 </div>
 
                 <div class="menu-actions">
-                    <button type="button" id="btn-ending-replay" class="btn-primary-play">🔄 Main Lagi (Coba Pilihan & Ending Lain)</button>
-                    <div class="menu-secondary-grid">
+                    <button type="button" id="btn-ending-replay" class="btn-primary-play">🔄 Main Lagi (Kejar 4 Ending!)</button>
+                    <div class="menu-secondary-grid two-cols">
                         <button type="button" id="btn-ending-archive" class="btn-menu-sec">🗂️ Lihat Arsip</button>
                         <button type="button" id="btn-ending-menu" class="btn-menu-sec">🏠 Menu Utama</button>
                     </div>
@@ -246,18 +267,18 @@
             </section>
 
             <!-- =============================================================
-                 MODAL A: PANEL STATUS & HUBUNGAN KARAKTER
+                 MODAL A: PANEL STATUS & RELASI WARGA
                  ============================================================= -->
             <div id="modal-status" class="modal-overlay hidden">
                 <div class="modal-header">
-                    <h3>📊 Panel Status & Relasi Warga RT 05</h3>
+                    <h3>📊 Status Admin & Relasi Warga</h3>
                     <button type="button" class="btn-close-modal" data-close-modal="modal-status">Tutup ✕</button>
                 </div>
 
                 <div class="modal-section-title">1. Tiga Indikator Utama (0–100)</div>
                 <div class="status-meter-group">
                     <div class="status-meter-top">
-                        <strong>Ketenangan Grup</strong>
+                        <strong>🕊️ Ketenangan Grup</strong>
                         <span id="modal-stat-ketenangan">70/100</span>
                     </div>
                     <div class="mini-progress-track"><div id="modal-bar-ketenangan" class="mini-progress-fill fill-ketenangan" style="width:70%"></div></div>
@@ -265,7 +286,7 @@
 
                 <div class="status-meter-group">
                     <div class="status-meter-top">
-                        <strong>Kepercayaan Warga</strong>
+                        <strong>⭐ Respek Warga</strong>
                         <span id="modal-stat-kepercayaan">50/100</span>
                     </div>
                     <div class="mini-progress-track"><div id="modal-bar-kepercayaan" class="mini-progress-fill fill-kepercayaan" style="width:50%"></div></div>
@@ -273,13 +294,13 @@
 
                 <div class="status-meter-group">
                     <div class="status-meter-top">
-                        <strong>Tekanan Admin (Dika)</strong>
+                        <strong>🤯 Tekanan Mental Dika</strong>
                         <span id="modal-stat-tekanan">20/100</span>
                     </div>
                     <div class="mini-progress-track"><div id="modal-bar-tekanan" class="mini-progress-fill fill-tekanan" style="width:20%"></div></div>
                 </div>
 
-                <div class="modal-section-title">2. Relasi Karakter Inti RT 05 (0–100)</div>
+                <div class="modal-section-title">2. Relasi Warga Inti RT 05 (0–100)</div>
                 <div id="character-relations-list"></div>
             </div>
 
@@ -288,17 +309,17 @@
                  ============================================================= -->
             <div id="modal-archive" class="modal-overlay hidden">
                 <div class="modal-header">
-                    <h3>🗂️ Arsip Kejadian & Koleksi Stiker RT</h3>
+                    <h3>🗂️ Arsip Drama & Koleksi Stiker</h3>
                     <button type="button" class="btn-close-modal" data-close-modal="modal-archive">Tutup ✕</button>
                 </div>
 
-                <div class="modal-section-title">Koleksi 4 Ending</div>
+                <div class="modal-section-title">🏆 Koleksi 4 Ending</div>
                 <div id="ending-list-container"></div>
 
-                <div class="modal-section-title">10 Arsip Kejadian Penting RT 05</div>
+                <div class="modal-section-title">📜 10 Arsip Kejadian RT 05</div>
                 <div id="archive-list-container"></div>
 
-                <div class="modal-section-title">5 Stiker Bapak-Bapak / Ibu-Ibu RT</div>
+                <div class="modal-section-title">★ 5 Stiker Legendaris RT 05</div>
                 <div id="sticker-list-container"></div>
             </div>
 
@@ -307,43 +328,51 @@
                  ============================================================= -->
             <div id="modal-saveload" class="modal-overlay hidden">
                 <div class="modal-header">
-                    <h3>💾 Simpan & Muat Permainan</h3>
+                    <h3>💾 Simpan & Muat Progres</h3>
                     <button type="button" class="btn-close-modal" data-close-modal="modal-saveload">Tutup ✕</button>
                 </div>
                 <div id="saveload-slots-container"></div>
             </div>
 
             <!-- =============================================================
-                 MODAL D: PENGATURAN AUDIO & KECEPATAN TEKS
+                 MODAL D: PENGATURAN AUDIO, KECEPATAN, & UKURAN FONT
                  ============================================================= -->
             <div id="modal-settings" class="modal-overlay hidden">
                 <div class="modal-header">
-                    <h3>⚙️ Pengaturan Permainan</h3>
+                    <h3>⚙️ Pengaturan Game</h3>
                     <button type="button" class="btn-close-modal" data-close-modal="modal-settings">Tutup ✕</button>
                 </div>
 
                 <div class="settings-row">
-                    <span>🔔 Efek Suara Notifikasi Chat (SFX)</span>
+                    <span>🔔 Efek Suara Chat (SFX)</span>
                     <button type="button" id="btn-toggle-sfx" class="btn-toggle active">Aktif (ON)</button>
                 </div>
 
                 <div class="settings-row">
-                    <span>🎵 Musik Latar Lingkungan (BGM)</span>
+                    <span>🎵 Musik Latar Santuy (BGM)</span>
                     <button type="button" id="btn-toggle-bgm" class="btn-toggle active">Aktif (ON)</button>
                 </div>
 
                 <div class="settings-row">
-                    <span>⚡ Kecepatan Muncul Chat</span>
-                    <div>
-                        <button type="button" class="btn-speed active" data-speed="normal">Normal</button>
+                    <span>⚡ Kecepatan Chat</span>
+                    <div class="settings-btn-group">
+                        <button type="button" class="btn-speed active" data-speed="normal">Santai</button>
                         <button type="button" class="btn-speed" data-speed="fast">Cepat</button>
                         <button type="button" class="btn-speed" data-speed="instant">Instan</button>
                     </div>
                 </div>
 
+                <div class="settings-row">
+                    <span>🔤 Ukuran Font Chat</span>
+                    <div class="settings-btn-group">
+                        <button type="button" class="btn-speed active" data-fontsize="normal">Normal</button>
+                        <button type="button" class="btn-speed" data-fontsize="large">Besar</button>
+                    </div>
+                </div>
+
                 <div style="margin-top: 16px;">
-                    <button type="button" id="btn-return-mainmenu" class="btn-menu-sec" style="width:100%; padding:12px;">
-                        🏠 Kembali ke Menu Utama
+                    <button type="button" id="btn-return-mainmenu" class="btn-menu-sec" style="width:100%; padding:13px;">
+                        🏠 Balik ke Menu Utama
                     </button>
                 </div>
             </div>

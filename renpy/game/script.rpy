@@ -1,14 +1,14 @@
 ## =========================================================================
-## ADMIN DADAKAN: Grup RT — script.rpy
+## ADMIN DADAKAN: Grup RT — script.rpy (v2.0 Edisi Gaul)
 ## Definisi Karakter, Aset Gambar, Prolog, & Alur Utama Permainan
 ## =========================================================================
 
 ## Definisi Karakter untuk Dialog Monolog / Cutscene Lingkungan
-define dika = Character("Dika", color="#38B2AC")
-define pak_rt = Character("Pak RT Hendra", color="#ECC94B")
-define bu_siti = Character("Bu Siti", color="#ED8936")
-define pak_budi = Character("Pak Budi", color="#63B3ED")
-define roni = Character("Roni Satpam", color="#A0AEC0")
+define dika = Character("Dika", color="#2DD4BF")
+define pak_rt = Character("Pak RT Hendra", color="#FBBF24")
+define bu_siti = Character("Bu Siti", color="#FB923C")
+define pak_budi = Character("Pak Budi", color="#60A5FA")
+define roni = Character("Roni Satpam", color="#94A3B8")
 define narator = Character(None, what_italic=True)
 
 ## Definisi Aset Background & Sprite Karakter 2D
@@ -47,27 +47,28 @@ label prolog:
     $ mode_tampilan = "cutscene"
     $ hari_aktif = 1
     $ fase_waktu = "Pagi (06:45)"
-    $ lokasi_aktif = "Kamar Dika, RT 05"
+    $ lokasi_aktif = "Kamar Dika — Markas Rebahan"
 
     scene bg kamar_dika with fade
     show char dika at center with dissolve
 
-    narator "Minggu pagi di lingkungan RT 05. Udara masih sejuk, kipas angin berputar pelan, dan kopi tubruk di meja baru saja diseduh."
-    dika "Target hidupku minggu ini sederhana: tidak ikut campur urusan orang, tidak debat di grup kompleks, dan tidur delapan jam sehari."
+    narator "Minggu pagi di kamar RT 05. Kipas angin muter santai, kopi tubruk masih ngebul."
+    dika "Resolusi hidup gue minggu ini cuma satu: rebahan tenang, no drama, no debat grup kompleks, dan tidur 8 jam sehari."
 
-    narator "Sayangnya, kedamaian di RT 05 selalu punya tanggal kedaluwarsa. HP Dika di atas meja tiba-tiba bergetar hebat."
+    narator "Sayangnya, kedamaian di RT 05 selalu punya tanggal kedaluwarsa. HP Dika di atas meja tiba-tiba getar kenceng."
 
     scene bg jalan_rt with dissolve
     show char pak_rt at center with dissolve
 
-    pak_rt "Assalamualaikum, Mas Dika! Wah, kebetulan anak muda yang melek teknologi sudah bangun."
-    dika "(Perasaan tidak enak mulai muncul. Biasanya kalau Pak RT memuji 'anak muda melek teknologi', ujung-ujungnya kerja bakti tanpa konsumsi.)"
-    pak_rt "Begini Mas Dika, tensi Bapak agak naik gara-gara baca notifikasi grup WargaChat RT 05 tiap subuh. Dokter menyarankan Bapak 'puasa menengahi debat warga' selama tiga hari."
-    pak_rt "Jadi mulai pagi ini, Mas Dika saya tunjuk sebagai Admin Grup RT 05 ya! Tugasnya gampang kok, cuma meneruskan pengumuman."
+    pak_rt "Assalamualaikum Mas Dika! Wah kebetulan banget nih anak muda paling melek teknologi udah bangun."
+    dika "(Fiks, perasaan nggak enak mulai muncul. Biasanya kalau Pak RT muji 'anak muda melek teknologi', ujung-ujungnya kerja bakti tanpa konsumsi.)"
+    pak_rt "Tensi Bapak lagi naik gara-gara baca notif WargaChat RT 05 tiap subuh. Kata dokter, Bapak harus 'puasa ngelerai warga' dulu 3 hari."
+    pak_rt "Jadi mulai pagi ini, Mas Dika Bapak angkat jadi Admin Grup RT 05 ya! Santai aja, tugasnya cuma nerusin pengumuman doang kok!"
 
     show char dika at center with dissolve
-    dika "Tunggu Pak, saya bahkan nggak pernah komentar di grup itu selain stiker jempol waktu Idulfitri—"
-    narator "Terlambat. Sebuah notifikasi sistem muncul di layar ponsel Dika:"
+    dika "Tunggu Pak, saya bahkan nggak pernah nongol di grup itu kecuali kirim stiker jempol pas Lebaran—"
+    narator "Telat. Satu notif keramat langsung mendarat di layar ponsel Dika:"
     narator "'Pak RT Hendra telah menjadikan Anda sebagai Admin Grup RT 05 Kompak.'"
+    dika "(Fiks, hidup tenang gue resmi tamat hari ini.)"
 
     jump hari_1

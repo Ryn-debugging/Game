@@ -23,13 +23,18 @@ define gui.hover_muted_color = '#718096'
 define gui.text_color = '#1A202C'
 define gui.interface_text_color = '#1A202C'
 
+## Tipografi Offline Enak Dilihat (Plus Jakarta Sans & Fredoka)
+define gui.text_font = "fonts/PlusJakartaSans-500.ttf"
+define gui.name_text_font = "fonts/Fredoka-600.ttf"
+define gui.interface_text_font = "fonts/PlusJakartaSans-600.ttf"
+
 ## Ukuran Font ramah layar ponsel (Aksesibilitas Bab 11.4 PRD)
-define gui.text_size = 34
-define gui.name_text_size = 38
-define gui.interface_text_size = 32
-define gui.label_text_size = 40
-define gui.notify_text_size = 28
-define gui.title_text_size = 64
+define gui.text_size = 36
+define gui.name_text_size = 40
+define gui.interface_text_size = 34
+define gui.label_text_size = 42
+define gui.notify_text_size = 30
+define gui.title_text_size = 68
 
 ## Kotak Dialog Adegan Lingkungan (Visual Novel Cutscene Mode)
 define gui.textbox_height = 420

@@ -1,30 +1,35 @@
 /**
- * ADMIN DADAKAN: Grup RT — js/engine.js
+ * ADMIN DADAKAN: Grup RT — js/engine.js (v2.0 Edisi Gaul & Visual Upgrade)
  * Core Game Engine untuk WargaChat Simulator, Visual Novel Cutscene,
+ * Photo Cards, Typing Bubble Animasi, Emoji Reactions, Screen Shake,
  * Manajemen Indikator (0-100), Relasi Karakter, Arsip, Save/Load, & 4 Ending.
  */
 
 class AdminDadakanEngine {
     constructor() {
-        this.STORAGE_META_KEY = "admin_dadakan_meta_v1";
+        this.STORAGE_META_KEY = "admin_dadakan_meta_v2";
         this.STORAGE_SAVE_PREFIX = "admin_dadakan_save_slot_";
+        this.STORAGE_FONT_KEY = "admin_dadakan_font_size";
 
         this.meta = this.loadMeta();
         this.state = this.createInitialState();
         this.chatSpeed = "normal"; // "normal" | "fast" | "instant"
+        this.fontSize = this.loadFontSize(); // "normal" | "large"
         this.isAnimatingChat = false;
         this.skipRequested = false;
         this.cutsceneQueue = [];
         this.cutsceneCallback = null;
+        this.typingBubbleEl = null;
     }
 
     createInitialState() {
         return {
-            screen: "menu", // "menu" | "prolog" | "chat" | "summary" | "ending"
+            screen: "menu",
             eventIndex: 0,
             day: 1,
             phase: "Pagi",
             time: "07:15",
+            battery: 96,
             bg: "kamar_dika",
             featuredChar: "dika",
             ketenangan: 70,
@@ -44,7 +49,7 @@ class AdminDadakanEngine {
 
     loadMeta() {
         try {
-            const raw = localStorage.getItem(this.STORAGE_META_KEY);
+            const raw = localStorage.getItem(this.STORAGE_META_KEY) || localStorage.getItem("admin_dadakan_meta_v1");
             if (raw) {
                 const parsed = JSON.parse(raw);
                 return {
@@ -71,18 +76,49 @@ class AdminDadakanEngine {
         }
     }
 
+    loadFontSize() {
+        try {
+            return localStorage.getItem(this.STORAGE_FONT_KEY) || "normal";
+        } catch (e) {
+            return "normal";
+        }
+    }
+
+    applyFontSize(size) {
+        this.fontSize = size;
+        const frame = document.getElementById("app-phone-frame");
+        if (frame) {
+            frame.classList.toggle("font-large", size === "large");
+        }
+        document.querySelectorAll("[data-fontsize]").forEach((b) => {
+            b.classList.toggle("active", b.getAttribute("data-fontsize") === size);
+        });
+        try {
+            localStorage.setItem(this.STORAGE_FONT_KEY, size);
+        } catch (e) {}
+    }
+
     clamp(val) {
         return Math.max(0, Math.min(100, Math.round(val)));
     }
 
     getSpeedDelay(baseMs) {
-        if (this.skipRequested || this.chatSpeed === "instant") return 25;
+        if (this.skipRequested || this.chatSpeed === "instant") return 28;
         if (this.chatSpeed === "fast") return Math.round(baseMs * 0.42);
         return baseMs;
     }
 
     sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    triggerShake() {
+        const frame = document.getElementById("app-phone-frame");
+        if (!frame) return;
+        frame.classList.remove("phone-shake");
+        void frame.offsetWidth;
+        frame.classList.add("phone-shake");
+        setTimeout(() => frame.classList.remove("phone-shake"), 420);
     }
 
     // =========================================================================
@@ -93,6 +129,7 @@ class AdminDadakanEngine {
             const dlBtn = document.getElementById("btn-download-apk");
             if (dlBtn) dlBtn.classList.add("hidden");
         }
+        this.applyFontSize(this.fontSize);
         this.bindUIEvents();
         this.updateCollectionCounters();
         this.showScreen("menu");
@@ -146,7 +183,7 @@ class AdminDadakanEngine {
             this.skipRequested = true;
         });
 
-        // Tombol Cutscene Next
+        // Tombol Cutscene Next / Skip
         document.getElementById("btn-cutscene-next").addEventListener("click", () => {
             window.soundManager.playClick();
             this.advanceCutsceneSlide();
@@ -189,7 +226,7 @@ class AdminDadakanEngine {
             });
         });
 
-        // Pengaturan Audio & Kecepatan
+        // Pengaturan Audio, Kecepatan, & Ukuran Font
         document.getElementById("btn-toggle-sfx").addEventListener("click", (e) => {
             const on = window.soundManager.toggleSFX();
             e.currentTarget.textContent = on ? "Aktif (ON)" : "Mati (OFF)";
@@ -209,6 +246,13 @@ class AdminDadakanEngine {
                 document.querySelectorAll("[data-speed]").forEach((b) => {
                     b.classList.toggle("active", b.getAttribute("data-speed") === this.chatSpeed);
                 });
+            });
+        });
+
+        document.querySelectorAll("[data-fontsize]").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                window.soundManager.playClick();
+                this.applyFontSize(btn.getAttribute("data-fontsize"));
             });
         });
 
@@ -240,7 +284,6 @@ class AdminDadakanEngine {
         this.updateHUD();
         window.soundManager.startBGM("normal");
 
-        // Jalankan cutscene prolog
         this.runCutscene(
             window.GAME_DATA.prolog.title,
             window.GAME_DATA.prolog.time,
@@ -270,13 +313,13 @@ class AdminDadakanEngine {
         const charInfo = window.GAME_DATA.characters[slide.speaker] || window.GAME_DATA.characters.dika;
 
         document.getElementById("cutscene-bg-img").src = bgInfo.src;
-        document.getElementById("cutscene-location-badge").textContent = bgInfo.name;
+        document.getElementById("cutscene-location-badge").textContent = "📍 " + bgInfo.name;
         document.getElementById("cutscene-char-img").src = charInfo.avatar;
         document.getElementById("cutscene-speaker-name").textContent = slide.speakerTitle || charInfo.name;
         document.getElementById("cutscene-dialogue-text").textContent = slide.text;
 
         const btnNext = document.getElementById("btn-cutscene-next");
-        btnNext.textContent = this.cutsceneQueue.length === 0 ? "Masuk ke WargaChat →" : "Lanjut ▶";
+        btnNext.textContent = this.cutsceneQueue.length === 0 ? "Gaskeun ke WargaChat →" : "Lanjut ▶";
     }
 
     finishCutscene() {
@@ -299,7 +342,6 @@ class AdminDadakanEngine {
         const ev = events[index];
         const prevEvent = index > 0 ? events[index - 1] : null;
 
-        // Jika ganti hari, bersihkan layar chat dan beri pembatas hari
         if (!prevEvent || prevEvent.day !== ev.day) {
             this.state.chatHistory = [];
             document.getElementById("chat-stream").innerHTML = "";
@@ -309,10 +351,10 @@ class AdminDadakanEngine {
         this.state.day = ev.day;
         this.state.phase = ev.phase;
         this.state.time = ev.time;
+        this.state.battery = ev.battery || 80;
         this.state.bg = ev.bg;
         this.state.featuredChar = ev.featuredChar;
 
-        // Sesuaikan BGM dengan suasana
         if (ev.phase === "Malam" && ev.bg === "pos_ronda") {
             window.soundManager.startBGM("night");
         } else if (ev.day === 3) {
@@ -321,10 +363,8 @@ class AdminDadakanEngine {
             window.soundManager.startBGM("normal");
         }
 
-        // Auto-save di awal setiap kejadian
         this.saveToSlot("autosave", true);
 
-        // Jika kejadian memiliki cutscene pengantar (Kejadian 10 Pos Ronda & Kejadian 14 Rapat Warga)
         if (ev.mode === "cutscene" && ev.cutsceneIntro && ev.cutsceneIntro.length > 0) {
             this.runCutscene(ev.title, `Hari ${ev.day} • ${ev.phase} (${ev.time})`, ev.cutsceneIntro, () => {
                 this.runEventChatFlow(ev);
@@ -337,9 +377,8 @@ class AdminDadakanEngine {
     async runEventChatFlow(ev) {
         this.showScreen("chat");
         this.updateHUD();
-        this.updateStageBanner(ev.bg, ev.featuredChar, ev.title, "Menyimak percakapan grup...");
+        this.updateStageBanner(ev.bg, ev.featuredChar, ev.title, "Lagi nyimak drama baru di grup RT 05...");
 
-        // Buka arsip atau stiker bawaan kejadian jika ada
         if (ev.unlockArchive) {
             this.unlockArchive(ev.unlockArchive);
         }
@@ -347,12 +386,10 @@ class AdminDadakanEngine {
             this.unlockSticker(ev.unlockSticker);
         }
 
-        // Sembunyikan area pilihan selama pesan sedang masuk
         const choicePanel = document.getElementById("choice-panel");
         choicePanel.classList.add("hidden");
         document.getElementById("chat-typing-bar").classList.remove("hidden");
 
-        // Susun pesan termasuk pesan kondisional relasi karakter
         const msgQueue = [...ev.messages];
         if (ev.conditionalMessage && ev.conditionalMessage.check(this.state)) {
             msgQueue.push(ev.conditionalMessage.msg);
@@ -360,9 +397,35 @@ class AdminDadakanEngine {
 
         await this.playMessageSequence(msgQueue);
 
-        // Tampilkan monolog batin Dika & 4 Pilihan Respons
         this.updateStageBanner(ev.bg, "dika", ev.title, ev.monologue);
         this.renderChoices(ev);
+    }
+
+    showLiveTypingBubble(senderId) {
+        this.removeLiveTypingBubble();
+        const charInfo = window.GAME_DATA.characters[senderId];
+        if (!charInfo) return;
+
+        const stream = document.getElementById("chat-stream");
+        const row = document.createElement("div");
+        row.className = "chat-row chat-row-incoming typing-bubble-row";
+        row.innerHTML = `
+            <img class="chat-avatar" src="${charInfo.avatar}" alt="${charInfo.shortName}" />
+            <div class="chat-bubble bubble-incoming bubble-typing">
+                <div class="bubble-sender" style="color:${charInfo.color}">${charInfo.shortName}</div>
+                <div class="typing-dots"><span></span><span></span><span></span></div>
+            </div>
+        `;
+        this.typingBubbleEl = row;
+        stream.appendChild(row);
+        stream.scrollTop = stream.scrollHeight;
+    }
+
+    removeLiveTypingBubble() {
+        if (this.typingBubbleEl && this.typingBubbleEl.parentNode) {
+            this.typingBubbleEl.parentNode.removeChild(this.typingBubbleEl);
+        }
+        this.typingBubbleEl = null;
     }
 
     async playMessageSequence(messages) {
@@ -377,17 +440,25 @@ class AdminDadakanEngine {
             if (msg.sender !== "system" && msg.sender !== "dika") {
                 const charInfo = window.GAME_DATA.characters[msg.sender];
                 const senderLabel = charInfo ? charInfo.shortName : "Warga";
-                typingText.textContent = `${senderLabel} sedang mengetik...`;
+                typingText.textContent = `${senderLabel} lagi ngetik...`;
                 if (charInfo) {
                     this.updateStagePortraitOnly(msg.sender);
                 }
-                await this.sleep(this.getSpeedDelay(620));
+                if (!this.skipRequested && this.chatSpeed !== "instant") {
+                    this.showLiveTypingBubble(msg.sender);
+                }
+                await this.sleep(this.getSpeedDelay(640));
+                this.removeLiveTypingBubble();
             } else {
-                typingText.textContent = "Memuat pesan baru...";
+                typingText.textContent = "Ada notif baru masuk...";
                 await this.sleep(this.getSpeedDelay(260));
             }
 
             this.appendChatBubble(msg);
+
+            if (msg.shake) {
+                this.triggerShake();
+            }
 
             if (msg.type === "sticker") {
                 window.soundManager.playStickerSound();
@@ -397,10 +468,11 @@ class AdminDadakanEngine {
                 window.soundManager.playIncomingChat();
             }
 
-            await this.sleep(this.getSpeedDelay(350));
+            await this.sleep(this.getSpeedDelay(380));
         }
 
-        typingText.textContent = "Giliranmu memilih respons sebagai Admin...";
+        this.removeLiveTypingBubble();
+        typingText.textContent = "Giliran kamu bales sebagai Admin RT 05...";
         btnSkip.classList.add("hidden");
         this.isAnimatingChat = false;
     }
@@ -433,7 +505,7 @@ class AdminDadakanEngine {
         }
 
         const bubble = document.createElement("div");
-        bubble.className = `chat-bubble ${isDika ? "bubble-outgoing" : "bubble-incoming"}`;
+        bubble.className = `chat-bubble ${isDika ? "bubble-outgoing" : "bubble-incoming"} ${msg.reaction ? "has-reaction" : ""}`;
 
         const header = document.createElement("div");
         header.className = "bubble-sender";
@@ -450,9 +522,21 @@ class AdminDadakanEngine {
                 <div class="sticker-emoji">${st.emoji}</div>
                 <div class="sticker-top">${st.topText}</div>
                 <div class="sticker-bottom">${st.bottomText}</div>
-                <div class="sticker-tag">★ Stiker Warga RT 05</div>
+                <div class="sticker-tag">★ Stiker Khas RT 05</div>
             `;
             bubble.appendChild(stCard);
+        } else if (msg.type === "photo") {
+            const bgObj = window.GAME_DATA.backgrounds[msg.photoBg] || window.GAME_DATA.backgrounds.jalan_rt;
+            const photoCard = document.createElement("div");
+            photoCard.className = "chat-photo-card";
+            photoCard.innerHTML = `
+                <div class="chat-photo-frame">
+                    <img src="${bgObj.src}" alt="Lampiran Foto Warga" class="chat-photo-img" />
+                    <span class="chat-photo-tag">${msg.photoTag || "📸 FOTO WARGA"}</span>
+                </div>
+                <div class="bubble-text chat-photo-caption">${msg.text}</div>
+            `;
+            bubble.appendChild(photoCard);
         } else {
             const body = document.createElement("div");
             body.className = "bubble-text";
@@ -464,6 +548,13 @@ class AdminDadakanEngine {
         meta.className = "bubble-meta";
         meta.innerHTML = `<span>${msg.time || this.state.time}</span> ${isDika ? '<span class="read-ticks">✓✓</span>' : ""}`;
         bubble.appendChild(meta);
+
+        if (msg.reaction) {
+            const reactBadge = document.createElement("span");
+            reactBadge.className = "bubble-reaction-pill";
+            reactBadge.textContent = msg.reaction;
+            bubble.appendChild(reactBadge);
+        }
 
         row.appendChild(bubble);
         stream.appendChild(row);
@@ -484,10 +575,11 @@ class AdminDadakanEngine {
             btn.className = `choice-btn choice-type-${choice.type.toLowerCase()} ${isLocked ? "choice-locked" : ""}`;
             btn.disabled = Boolean(isLocked);
 
+            const badgeLabel = choice.tag || choice.type;
             btn.innerHTML = `
                 <div class="choice-header">
-                    <span class="choice-badge badge-${choice.type.toLowerCase()}">${choice.type}</span>
-                    ${isLocked ? '<span class="choice-lock-tag">🔒 Terkunci (Stres Tinggi)</span>' : ""}
+                    <span class="choice-badge badge-${choice.type.toLowerCase()}">${badgeLabel}</span>
+                    ${isLocked ? '<span class="choice-lock-tag">🔒 Stres Ketinggian!</span>' : ""}
                 </div>
                 <div class="choice-label">${isLocked ? choice.lockReason : choice.label}</div>
             `;
@@ -511,7 +603,6 @@ class AdminDadakanEngine {
         choicePanel.classList.add("hidden");
         document.getElementById("chat-typing-bar").classList.remove("hidden");
 
-        // Tampilkan pesan balasan Dika
         if (choice.isSilent) {
             this.appendChatBubble({
                 sender: "system",
@@ -528,12 +619,10 @@ class AdminDadakanEngine {
             window.soundManager.playOutgoingChat();
         }
 
-        // Terapkan flag cerita jika ada
         if (choice.setFlag) {
             this.state.flags[choice.setFlag] = true;
         }
 
-        // Catat log keputusan harian
         if (choice.log) {
             if (!this.state.dayLogs[ev.day]) {
                 this.state.dayLogs[ev.day] = [];
@@ -541,19 +630,16 @@ class AdminDadakanEngine {
             this.state.dayLogs[ev.day].push(choice.log);
         }
 
-        // Terapkan perubahan indikator & relasi
         this.applyEffects(choice.effects || {});
 
         await this.sleep(this.getSpeedDelay(450));
 
-        // Tampilkan pesan lanjutan warga
         if (choice.followUp && choice.followUp.length > 0) {
             await this.playMessageSequence(choice.followUp);
         }
 
         await this.sleep(this.getSpeedDelay(550));
 
-        // Cek apakah hari ini sudah berakhir atau lanjut ke kejadian berikutnya
         const nextIndex = this.state.eventIndex + 1;
         const nextEvent = window.GAME_DATA.events[nextIndex];
 
@@ -572,16 +658,15 @@ class AdminDadakanEngine {
 
         if (effects.ketenangan) {
             this.state.ketenangan = this.clamp(this.state.ketenangan + effects.ketenangan);
-            deltas.push({ label: "Ketenangan", val: effects.ketenangan, positive: effects.ketenangan > 0 });
+            deltas.push({ label: "🕊️ Adem", val: effects.ketenangan, positive: effects.ketenangan > 0 });
         }
         if (effects.kepercayaan) {
             this.state.kepercayaan = this.clamp(this.state.kepercayaan + effects.kepercayaan);
-            deltas.push({ label: "Kepercayaan", val: effects.kepercayaan, positive: effects.kepercayaan > 0 });
+            deltas.push({ label: "⭐ Respek", val: effects.kepercayaan, positive: effects.kepercayaan > 0 });
         }
         if (effects.tekanan) {
             this.state.tekanan = this.clamp(this.state.tekanan + effects.tekanan);
-            // Untuk tekanan, naik berarti lebih stres (warning), turun berarti lega (positive)
-            deltas.push({ label: "Tekanan", val: effects.tekanan, positive: effects.tekanan < 0 });
+            deltas.push({ label: "🤯 Stres", val: effects.tekanan, positive: effects.tekanan < 0 });
         }
 
         if (effects.relasi_rt) this.state.relasi_rt = this.clamp(this.state.relasi_rt + effects.relasi_rt);
@@ -599,6 +684,12 @@ class AdminDadakanEngine {
     }
 
     updateHUD() {
+        const clockEl = document.getElementById("phone-clock");
+        if (clockEl) clockEl.textContent = this.state.time + " WIB";
+
+        const batEl = document.getElementById("phone-battery");
+        if (batEl) batEl.textContent = `🔋 ${this.state.battery}%`;
+
         document.getElementById("hud-day-phase").textContent = `Hari ${this.state.day}/3 • ${this.state.phase}`;
         document.getElementById("hud-val-ketenangan").textContent = this.state.ketenangan;
         document.getElementById("hud-val-kepercayaan").textContent = this.state.kepercayaan;
@@ -607,6 +698,20 @@ class AdminDadakanEngine {
         document.getElementById("hud-bar-ketenangan").style.width = `${this.state.ketenangan}%`;
         document.getElementById("hud-bar-kepercayaan").style.width = `${this.state.kepercayaan}%`;
         document.getElementById("hud-bar-tekanan").style.width = `${this.state.tekanan}%`;
+
+        const moodEl = document.getElementById("stage-mood-badge");
+        if (moodEl) {
+            if (this.state.ketenangan >= 65) {
+                moodEl.textContent = "🕊️ Grup Adem";
+                moodEl.className = "stage-mood-badge mood-calm";
+            } else if (this.state.ketenangan >= 40) {
+                moodEl.textContent = "⚠️ Mulai Panas";
+                moodEl.className = "stage-mood-badge mood-warm";
+            } else {
+                moodEl.textContent = "🔥 Siaga Chaos!";
+                moodEl.className = "stage-mood-badge mood-chaos";
+            }
+        }
 
         document.getElementById("badge-archive-count").textContent = this.meta.unlockedArchives.length;
     }
@@ -684,7 +789,7 @@ class AdminDadakanEngine {
 
         const menuMetaEl = document.getElementById("menu-progress-summary");
         if (menuMetaEl) {
-            menuMetaEl.textContent = `Arsip: ${archCount}/10 • Stiker RT: ${stickCount}/5 • Ending: ${endCount}/4`;
+            menuMetaEl.textContent = `🗂️ Arsip ${archCount}/10 • ★ Stiker ${stickCount}/5 • 🏆 Ending ${endCount}/4`;
         }
     }
 
@@ -693,12 +798,12 @@ class AdminDadakanEngine {
     // =========================================================================
     showDailySummary(dayNum) {
         const headlines = {
-            1: "Hari 1 Selesai! Kamu selamat dari iuran Rp15.000, hoaks air galon, dan misteri sandal kiri pos ronda.",
-            2: "Hari 2 Selesai! Dari parkir sedan di gang sempit, Mayor Kucing Oren, salah kirim chat Pak RT, hingga kopi malam Pos Ronda.",
-            3: "Hari 3 & Rapat Besar Selesai! Saatnya melihat hasil akhir kepemimpinanmu sebagai Admin Dadakan RT 05."
+            1: "Hari 1 Kelar! Kamu lolos dari drama iuran 15 ribu, hoaks air galon, sampai misteri sandal kiri pos ronda.",
+            2: "Hari 2 Kelar! Mulai dari parkir gang sempit, Mayor Kucing Oren, tragedi salah kamar Pak RT, sampai ngopi di Pos Ronda.",
+            3: "Hari 3 & Rapat Besar Kelar! Saatnya liat nasib akhir kamu sebagai Admin Dadakan RT 05!"
         };
 
-        document.getElementById("summary-day-badge").textContent = `Evaluasi Malam • Akhir Hari ${dayNum} dari 3`;
+        document.getElementById("summary-day-badge").textContent = `🌙 Rekap Malam • Akhir Hari ${dayNum} dari 3`;
         document.getElementById("summary-headline").textContent = headlines[dayNum] || "";
 
         document.getElementById("sum-ketenangan").textContent = `${this.state.ketenangan}/100`;
@@ -715,7 +820,7 @@ class AdminDadakanEngine {
         });
 
         const btnNext = document.getElementById("btn-summary-next");
-        btnNext.textContent = dayNum < 3 ? `Lanjut ke Hari ${dayNum + 1} →` : "Lihat Ending Akhir →";
+        btnNext.textContent = dayNum < 3 ? `Lanjut ke Hari ${dayNum + 1} →` : "Buka Ending Akhir 🏆 →";
 
         this.showScreen("summary");
     }
@@ -736,19 +841,15 @@ class AdminDadakanEngine {
         const s = this.state;
         const highRelCount = [s.relasi_rt, s.relasi_siti, s.relasi_budi, s.relasi_roni].filter((r) => r >= 60).length;
 
-        // 1. Ending 3: Aku Resign!
         if (s.tekanan >= 80 || (s.flags.flag_pilihan_resign && s.tekanan >= 65) || s.flags.flag_pilihan_resign) {
             return "aku_resign";
         }
-        // 2. Ending 2: Perang Grup RT
         if (s.ketenangan <= 35 || (s.ketenangan < 50 && s.kepercayaan < 40)) {
             return "perang_grup";
         }
-        // 3. Ending 4: Ketua RT Baru
         if (s.ketenangan >= 65 && s.kepercayaan >= 70 && s.tekanan < 75 && highRelCount >= 2) {
             return "ketua_rt_baru";
         }
-        // 4. Ending 1 (Default): Admin Teladan
         return "admin_teladan";
     }
 
@@ -816,19 +917,19 @@ class AdminDadakanEngine {
 
     getStatusDesc(type, val) {
         if (type === "ketenangan") {
-            if (val >= 70) return "Kondusif & Adem";
+            if (val >= 70) return "Adem & Kondusif";
             if (val >= 40) return "Rawan Sindiran";
             return "Siaga Perang Grup!";
         }
         if (type === "kepercayaan") {
-            if (val >= 70) return "Admin Dihormati";
-            if (val >= 40) return "Cukup Didengar";
-            return "Dianggap Angin Lalu";
+            if (val >= 70) return "Admin Paling Dihormati";
+            if (val >= 40) return "Lumayan Didengerin";
+            return "Dicuekin Warga";
         }
         if (type === "tekanan") {
-            if (val >= 75) return "Kritis! Ingin Resign";
-            if (val >= 45) return "Pusing Notifikasi";
-            return "Masih Waras & Santai";
+            if (val >= 75) return "Kena Mental! Pengen Resign";
+            if (val >= 45) return "Puyeng Notifikasi";
+            return "Masih Waras & Santuy";
         }
         return "";
     }
@@ -856,7 +957,7 @@ class AdminDadakanEngine {
 
         relList.forEach((item) => {
             const c = window.GAME_DATA.characters[item.id];
-            const relStatus = item.val >= 65 ? "Akrab & Mendukung" : item.val >= 45 ? "Netral" : "Sensitif / Curiga";
+            const relStatus = item.val >= 65 ? "Bestie & Dukung Penuh" : item.val >= 45 ? "Biasa Aja" : "Rawan Baper";
             const card = document.createElement("div");
             card.className = "relation-card";
             card.innerHTML = `
@@ -888,10 +989,10 @@ class AdminDadakanEngine {
                 <div class="archive-icon">${unlocked ? arch.icon : "🔒"}</div>
                 <div class="archive-body">
                     <div class="archive-title-row">
-                        <strong>${unlocked ? arch.title : "Arsip Kejadian Terkunci"}</strong>
+                        <strong>${unlocked ? arch.title : "Arsip Masih Terkunci"}</strong>
                         <span class="archive-day-tag">${arch.day}</span>
                     </div>
-                    <p>${unlocked ? arch.desc : "Mainkan dan temukan kejadian ini di grup WargaChat RT 05."}</p>
+                    <p>${unlocked ? arch.desc : "Main terus buat nemuin kejadian kocak ini di WargaChat RT 05."}</p>
                 </div>
             `;
             archiveGrid.appendChild(item);
@@ -908,10 +1009,10 @@ class AdminDadakanEngine {
                 <div class="archive-icon">${unlocked ? "★" : "🔒"}</div>
                 <div class="archive-body">
                     <div class="archive-title-row">
-                        <strong>${unlocked ? st.title : "Stiker RT Terkunci"}</strong>
+                        <strong>${unlocked ? st.title : "Stiker RT Masih Terkunci"}</strong>
                         <span class="archive-day-tag">${st.sender}</span>
                     </div>
-                    <p>${unlocked ? `${st.emoji} "${st.topText} — ${st.bottomText}"` : "Temukan kiriman stiker ini selama percakapan berlangsung."}</p>
+                    <p>${unlocked ? `${st.emoji} "${st.topText} — ${st.bottomText}"` : "Lanjutin chat warga buat koleksi stiker legendaris ini."}</p>
                 </div>
             `;
             stickerGrid.appendChild(item);
@@ -928,10 +1029,10 @@ class AdminDadakanEngine {
                 <div class="archive-icon">${unlocked ? "🏆" : "🔒"}</div>
                 <div class="archive-body">
                     <div class="archive-title-row">
-                        <strong>${unlocked ? end.title : `${end.number} (Belum Tercapai)`}</strong>
+                        <strong>${unlocked ? end.title : `${end.number} (Belum Kebuka)`}</strong>
                         <span class="archive-day-tag">${end.number}</span>
                     </div>
-                    <p>${unlocked ? end.subtitle : "Cobalah kombinasi pilihan & indikator berbeda untuk membuka ending ini."}</p>
+                    <p>${unlocked ? end.subtitle : "Cobain gaya balasan & skor berbeda buat dapetin ending ini."}</p>
                 </div>
             `;
             endingGrid.appendChild(item);
@@ -980,7 +1081,7 @@ class AdminDadakanEngine {
         container.innerHTML = "";
 
         const slots = [
-            { id: "autosave", name: "Slot Otomatis (Auto-Save)", canSave: false },
+            { id: "autosave", name: "Auto-Save (Otomatis)", canSave: false },
             { id: "slot1", name: "Slot Simpan 1", canSave: true },
             { id: "slot2", name: "Slot Simpan 2", canSave: true },
             { id: "slot3", name: "Slot Simpan 3", canSave: true }
@@ -1001,8 +1102,8 @@ class AdminDadakanEngine {
             card.className = "save-slot-card";
 
             const desc = savedData
-                ? `${savedData.eventTitle} • Tenang ${savedData.state.ketenangan} | Percaya ${savedData.state.kepercayaan} | Stres ${savedData.state.tekanan} (${savedData.savedAt})`
-                : "Kosong — Belum ada data tersimpan";
+                ? `${savedData.eventTitle} • Adem ${savedData.state.ketenangan} | Respek ${savedData.state.kepercayaan} | Stres ${savedData.state.tekanan} (${savedData.savedAt})`
+                : "Kosong — Belum ada progres tersimpan";
 
             card.innerHTML = `
                 <div class="save-slot-info">
